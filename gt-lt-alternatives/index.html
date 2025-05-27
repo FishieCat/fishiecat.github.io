@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visual Alternatives for Less Than and Greater Than Symbols</title>
+  <meta name="description" content="Can't use < or >? Click to copy some alternatives for less than (<), less than heart (<3), and greater than (>) symbols.">
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 40px;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .cell {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 30px 10px;
+      text-align: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      position: relative;
+    }
+
+    .cell:hover {
+      background-color: #2a2a2a;
+    }
+
+    .copied {
+      animation: flash 0.5s ease;
+    }
+
+    @keyframes flash {
+      0% { background-color: yellow; color: black; }
+      100% { background-color: #1e1e1e; color: white; }
+    }
+
+    .label {
+      font-size: 0.85rem;
+      margin-top: 8px;
+      color: #aaa;
+    }
+
+    .column-titles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #ccc;
+      font-size: 1rem;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Greater-than/less-than &lt; &gt; Symbol alternatives</h1>
+  <p>For when &lt;, &gt;, or &lt;3 are forbidden</p>
+
+  <div class="grid">
+    <!-- Row 1 -->
+    <div class="cell" data-copy="‹">‹</div>
+    <div class="cell" data-copy="‹3">‹3</div>
+    <div class="cell" data-copy="›">›</div>
+
+    <!-- Row 4 -->
+    <div class="cell" data-copy="﹤">﹤</div>
+    <div class="cell" data-copy="﹤3">﹤3</div>
+    <div class="cell" data-copy="﹥">﹥</div>
+
+    <!-- Row 5 -->
+    <div class="cell" data-copy="＜">＜</div>
+    <div class="cell" data-copy="＜3">＜3</div>
+    <div class="cell" data-copy="＞">＞</div>
+
+    <!-- Row 2 -->
+    <div class="cell" data-copy="⧼">⧼</div>
+    <div class="cell" data-copy="⧼3">⧼3</div>
+    <div class="cell" data-copy="⧽">⧽</div>
+
+    <!-- Row 3 -->
+    <div class="cell" data-copy="⟨">⟨</div>
+    <div class="cell" data-copy="⟨3">⟨3</div>
+    <div class="cell" data-copy="⟩">⟩</div>
+
+    <!-- Row 6 -->
+    <div class="cell" data-copy="⊲">⊲</div>
+    <div class="cell" data-copy="⊲3">⊲3</div>
+    <div class="cell" data-copy="⊳">⊳</div>
+  </div>
+<div class="label">click to copy</div>
+<script>
+  const cells = document.querySelectorAll('.cell');
+
+  cells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const text = cell.getAttribute('data-copy');
+
+      if (!text) return; // nothing to copy
+
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showCopiedFeedback(cell);
+        }).catch(() => {
+          // fallback if clipboard API fails
+          fallbackCopyText(text, cell);
+        });
+      } else {
+        // fallback if clipboard API not supported
+        fallbackCopyText(text, cell);
+      }
+    });
+  });
+
+  function fallbackCopyText(text, cell) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    // Avoid scrolling to bottom
+    textarea.style.position = "fixed";
+    textarea.style.top = 0;
+    textarea.style.left = 0;
+    textarea.style.width = '2em';
+    textarea.style.height = '2em';
+    textarea.style.padding = 0;
+    textarea.style.border = 'none';
+    textarea.style.outline = 'none';
+    textarea.style.boxShadow = 'none';
+    textarea.style.background = 'transparent';
+
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        showCopiedFeedback(cell);
+      } else {
+        alert('Failed to copy text');
+      }
+    } catch (err) {
+      alert('Failed to copy text');
+    }
+
+    document.body.removeChild(textarea);
+  }
+
+  function showCopiedFeedback(cell) {
+    cell.classList.add('copied');
+    setTimeout(() => {
+      cell.classList.remove('copied');
+    }, 500);
+  }
+</script>
+
+</body>
+</html>
